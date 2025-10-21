@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { FaQuestionCircle, FaUserCircle, FaGlobe, FaCar, FaSignOutAlt } from "react-icons/fa";
 
-export default function Navbar({ onNavigate, isLoggedIn, onLogout }) {
+export default function Navbar({ onNavigate, isLoggedIn, onLogout, user }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
@@ -112,7 +112,7 @@ export default function Navbar({ onNavigate, isLoggedIn, onLogout }) {
             <button 
               onClick={handleUserIconClick}
               className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors duration-200"
-              title={isLoggedIn ? "Menu người dùng" : "Đăng nhập"}
+              title={isLoggedIn ? (user?.fullName || 'Menu người dùng') : "Đăng nhập"}
             >
               <FaUserCircle size={14} className="text-white" />
             </button>
@@ -121,8 +121,8 @@ export default function Navbar({ onNavigate, isLoggedIn, onLogout }) {
             {isLoggedIn && isUserMenuOpen && (
               <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-50">
                 <div className="px-4 py-3 border-b border-gray-200">
-                  <p className="text-sm font-semibold text-gray-800">Nguyễn Văn A</p>
-                  <p className="text-xs text-gray-500">nguyenvana@example.com</p>
+                  <p className="text-sm font-semibold text-gray-800">{user?.fullName || 'Người dùng'}</p>
+                  <p className="text-xs text-gray-500">{user?.email || '---'}</p>
                 </div>
                 
                 <button 
