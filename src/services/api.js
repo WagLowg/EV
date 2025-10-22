@@ -1,11 +1,13 @@
 import axios from 'axios';
 
 // Cấu hình base URL cho API
-// Trong development mode, sử dụng proxy (xem vite.config.js)
-// Trong production, sử dụng full URL
-const API_BASE_URL = import.meta.env.PROD 
-  ? 'https://ev-service-center-maintance-management-um2j.onrender.com/api'
-  : '/api'; // Sử dụng proxy trong development
+// - Ở development, bạn có thể dùng proxy (ví dụ: '/api') hoặc trực tiếp localhost
+// - Ở production, set VITE_API_BASE_URL thành ví dụ: 'https://your-backend.onrender.com'
+const rawBase = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:10000' : 'https://ev-service-center-maintance-management-um2j.onrender.com');
+
+// Đảm bảo base URL không có trailing slash và nối /api nếu chưa có
+const normalized = String(rawBase).replace(/\/$/, '');
+const API_BASE_URL = normalized.endsWith('/api') ? normalized : `${normalized}/api`;
 
 // Tạo instance axios với cấu hình mặc định
 const api = axios.create({
